@@ -82,7 +82,7 @@ export const profile = {
   cv: {
     href: "/cv.pdf",
     /** Flip to true once public/cv.pdf exists. */
-    available: false,
+    available: true,
   },
 };
 

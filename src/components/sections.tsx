@@ -34,7 +34,7 @@ function SocialButtons() {
     <ul className="flex flex-wrap gap-2">
       <li>
         {profile.cv.available ? (
-          <a href={profile.cv.href} download className={btn.primary}>
+          <a href={profile.cv.href} download="CV_Rifqisyandi_Khairurrizal.pdf" className={btn.primary}>
             <Download aria-hidden className="size-4" />
             Download CV
           </a>
