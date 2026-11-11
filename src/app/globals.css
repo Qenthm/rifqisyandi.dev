@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------- Design tokens ----------
+   One neutral palette + one accent. Dark is the default theme.
+   Contrast (WCAG): muted on bg ≥ 7:1 in both themes, accent text ≥ 4.5:1. */
+:root,
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --surface: #121212;
+  --border: #262626;
+  --border-strong: #3a3a3a;
+  --muted: #a3a3a3;
+  --fg: #ededed;
+  --accent: #f5a524;
+  --accent-hover: #f7b84f;
+  --accent-fg: #0a0a0a;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --border: #e5e5e4;
+  --border-strong: #d4d4d3;
+  --muted: #57534e;
+  --fg: #1c1917;
+  --accent: #b45309;
+  --accent-hover: #92400e;
+  --accent-fg: #ffffff;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-muted: var(--muted);
+  --color-fg: var(--fg);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Type scale: 14 / 16 / 18 / 24 / 36 / 56 */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.25;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 1.15;
+  --text-6xl: 3.5rem;
+  --text-6xl--line-height: 1.05;
+
+  --radius-card: 12px;
+  --radius-ctl: 8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Reveal on scroll (opt-in; disabled for reduced motion) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 300ms ease-out,
+      transform 300ms ease-out;
+  }
+  html.js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
 }

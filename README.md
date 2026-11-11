@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# rifqisyandi.dev
 
-## Getting Started
+Personal portfolio of Rifqisyandi Khairurrizal. Next.js (App Router) + TypeScript + Tailwind CSS v4, fully static.
 
-First, run the development server:
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build (also fetches the blog RSS)
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Editing content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**All content lives in [`src/data/profile.ts`](src/data/profile.ts).** You shouldn't need to touch components.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| What | Where in `profile.ts` |
+| --- | --- |
+| Name, headline, bio, "Currently:" line, socials | `profile` |
+| SEO title / description / domain | `site` |
+| Skills (grouped) | `skillGroups`, where `icon.slug` is a [simple-icons](https://simpleicons.org) slug, or a Lucide fallback |
+| Experience timeline | `experience` |
+| Featured projects (first one gets the large layout) | `featuredProjects` |
+| Smaller cards on `/projects` | `moreProjects` |
+| Awards | `awards` |
+| Blog feed URL + fallback posts | `blogFeed` |
 
-## Learn More
+### Adding the CV
+1. Put the PDF at `public/cv.pdf`.
+2. In `profile.ts` set `cv.available: true`. The "CV coming soon" placeholder becomes a **Download CV** button.
 
-To learn more about Next.js, take a look at the following resources:
+### Adding a photo
+Currently an "RK" initials tile (`Hero` in `src/components/sections.tsx`). To use a photo, put it in `public/` and swap the tile for `next/image` with explicit `width`/`height`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Writing section
+Latest 3 posts are pulled from `https://rifqi-blog.vercel.app/index.xml` **at build time** (cached for a day). If the feed is unreachable, `blogFeed.fallback` is shown. Redeploy to pick up new posts immediately.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design system
+- Colors are CSS variables in `src/app/globals.css` (`--bg`, `--surface`, `--border`, `--muted`, `--fg`, `--accent`), exposed to Tailwind as `bg-bg`, `text-muted`, `text-accent`, etc. Dark is default; the toggle saves to `localStorage`.
+- Type scale: 14 / 16 / 18 / 24 / 36 / 56px. Fonts: Geist + Geist Mono.
+- Radius: 12px cards (`rounded-card`), 8px controls (`rounded-ctl`).
+- Motion: 150–300ms ease-out, disabled under `prefers-reduced-motion`.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy (Vercel)
+1. Push to GitHub, then on [vercel.com/new](https://vercel.com/new) import the repo (no config needed), or run `npx vercel` then `npx vercel --prod`.
+2. Domain: buy `rifqisyandi.dev` (Cloudflare, Porkbun, Namecheap, or Vercel). `.dev` is HSTS-preloaded, so HTTPS is mandatory; Vercel issues the certificate automatically.
+3. Vercel → Project → Settings → Domains: add `rifqisyandi.dev` and `www.rifqisyandi.dev` (set `www` to redirect to the apex), then set the DNS records Vercel shows you (apex `A` + `www` `CNAME`), or switch nameservers to Vercel.
