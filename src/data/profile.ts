@@ -80,8 +80,8 @@ export const profile = {
     blog: "https://rifqi-blog.vercel.app",
   },
   cv: {
-    href: "/cv.pdf",
-    /** Flip to true once public/cv.pdf exists. */
+    href: "/CV_Rifqisyandi_Khairurrizal.pdf",
+    /** The file in public/ that href points to. Flip to true once it exists. */
     available: true,
   },
 };

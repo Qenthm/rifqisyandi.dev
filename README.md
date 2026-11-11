@@ -27,7 +27,7 @@ npm run lint
 | Blog feed URL + fallback posts | `blogFeed` |
 
 ### Adding the CV
-1. Put the PDF at `public/cv.pdf`.
+1. Put the PDF at `public/CV_Rifqisyandi_Khairurrizal.pdf` (the filename visitors see when they download it; the old `/cv.pdf` URL redirects here). If you rename it, update `cv.href` in `profile.ts` and the redirect in `next.config.ts`.
 2. In `profile.ts` set `cv.available: true`. The "CV coming soon" placeholder becomes a **Download CV** button.
 
 ### Adding a photo
